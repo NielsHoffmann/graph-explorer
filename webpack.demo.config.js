@@ -25,6 +25,7 @@ const htmlTemplatePath = path.join(__dirname, 'examples', 'template.ejs');
 module.exports = {
   mode: 'development',
   entry: {
+    datahub: path.join(examplesDir, 'datahub.ts'),
     rdf: path.join(examplesDir, 'rdf.ts'),
     demo: path.join(examplesDir, 'demo.ts'),
     dbpedia: path.join(examplesDir, 'dbpedia.ts'),
@@ -68,6 +69,12 @@ module.exports = {
     publicPath: '',
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'datahub.html',
+      title: 'Datahub SparQL Demo',
+      chunks: ['commons', 'datahub'],
+      template: htmlTemplatePath,
+  }),
     new HtmlWebpackPlugin({
       filename: 'rdf.html',
       title: 'Graph Explorer RDF Demo',
