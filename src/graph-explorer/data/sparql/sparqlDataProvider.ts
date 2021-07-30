@@ -86,6 +86,11 @@ export interface SparqlDataProviderOptions {
    */
   endpointUrl: string;
 
+  /*
+  NH 30-7-2021 - custom header implementation
+  */
+  headers?: { [header: string]: string };
+
   // there are two options for fetching images: specify imagePropertyUris
   // to use as image properties or specify a function to fetch image URLs
 
@@ -755,6 +760,8 @@ export class SparqlDataProvider implements DataProvider {
       this.options.endpointUrl,
       query,
       method,
+      //NH 30-7-2021 - custom header implementation
+      this.options.headers,
       this.options.queryFunction
     );
   }
@@ -767,6 +774,8 @@ export class SparqlDataProvider implements DataProvider {
       this.options.endpointUrl,
       query,
       method,
+      //NH 30-7-2021 - custom header implementation
+      this.options.headers,
       this.options.queryFunction
     );
   }
@@ -1031,25 +1040,32 @@ export function executeSparqlQuery<Binding>(
   endpoint: string,
   query: string,
   method: SparqlQueryMethod,
+  //NH 30-7-2021 - custom header implementation
+  headers: { [header: string]: string },
   queryFunction: QueryFunction
 ): Promise<SparqlResponse<Binding>> {
   let internalQuery: Promise<Response>;
   if (method === SparqlQueryMethod.GET) {
+    //console.log("executeSparqlQuery: " + JSON.stringify(endpoint) + ' qf: ' + JSON.stringify(headers))
     internalQuery = queryFunction({
       url: appendQueryParams(endpoint, { query }),
-      headers: {
-        Accept: 'application/sparql-results+json',
-      },
+      // headers: {
+      //   Accept: 'application/sparql-results+json',
+      // },
+      //NH 30-7-2021 - custom header implementation
+      headers: Object.assign(headers, {'Accept': 'application/json'}),
       method: 'GET',
     });
   } else {
     internalQuery = queryFunction({
       url: endpoint,
       body: query,
-      headers: {
-        Accept: 'application/sparql-results+json',
-        'Content-Type': 'application/sparql-query; charset=UTF-8',
-      },
+      // headers: {
+      //   Accept: 'application/sparql-results+json',
+      //   'Content-Type': 'application/sparql-query; charset=UTF-8',
+      // },
+      //NH 30-7-2021 - custom header implementation
+      headers: Object.assign(headers, {'Accept': 'application/json'}),
       method: 'POST',
     });
   }
@@ -1070,25 +1086,32 @@ export function executeSparqlConstruct(
   endpoint: string,
   query: string,
   method: SparqlQueryMethod,
+  //NH 30-7-2021 - custom header implementation
+  headers: { [header: string]: string },
   queryFunction: QueryFunction
 ): Promise<Triple[]> {
   let internalQuery: Promise<Response>;
   if (method === SparqlQueryMethod.GET) {
     internalQuery = queryFunction({
       url: appendQueryParams(endpoint, { query }),
-      headers: {
-        Accept: 'text/turtle',
-      },
+      // headers: {
+      //   Accept: 'text/turtle',
+      // },
+      //headers,
+      //NH 30-7-2021 - custom header implementation
+      headers: Object.assign(headers, {'Accept': 'text/turtle',}),
       method: 'GET',
     });
   } else {
     internalQuery = queryFunction({
       url: endpoint,
       body: query,
-      headers: {
-        Accept: 'text/turtle',
-        'Content-Type': 'application/sparql-query; charset=UTF-8',
-      },
+      // headers: {
+      //   Accept: 'text/turtle',
+      //   'Content-Type': 'application/sparql-query; charset=UTF-8',
+      // },
+      //NH 30-7-2021 - custom header implementation
+      headers: Object.assign(headers, {'Accept': 'text/turtle','Content-Type': 'application/sparql-query; charset=UTF-8'}),
       method: 'POST',
     });
   }
