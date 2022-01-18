@@ -59,8 +59,9 @@
     "@types/react-dom": "^16.0.0",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
+    "@webpack-cli/serve": "^1.6.0",
     "canvg-fixed": "1.0.0",
-    "css-loader": "^3.4.0",
+    "css-loader": "^5.2.7",
     "dts-bundle": "0.7.2",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.22.0",
@@ -82,7 +83,7 @@
     "url-loader": "1.1.1",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack-dev-server": "^4.7.3"
   },
   "resolutions": {
     "@types/react": "15.6.9"
