@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 
 const SUPPORT_IE = process.env.SUPPORT_IE;
 const SPARQL_ENDPOINT = process.env.SPARQL_ENDPOINT;
@@ -69,6 +70,7 @@ module.exports = {
     publicPath: '',
   },
   plugins: [
+    new NodePolyfillPlugin(),
     new HtmlWebpackPlugin({
       filename: 'datahub.html',
       title: 'Datahub SparQL Demo',
@@ -118,7 +120,6 @@ module.exports = {
     }),
   ],
   devServer: {
-    contentBase: './dist',
     proxy: {
       '/sparql**': {
         target: SPARQL_ENDPOINT,
