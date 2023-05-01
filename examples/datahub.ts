@@ -7,7 +7,7 @@ import {
 
 import { onPageLoad, tryLoadLayoutFromLocalStorage, saveLayoutToLocalStorage } from './common';
 
-const config_data = require('../auth_config.json')
+const ConfigData: any = require('../auth_config.json')
         
 
 function onWorkspaceMounted(workspace: Workspace) {
@@ -23,7 +23,7 @@ function onWorkspaceMounted(workspace: Workspace) {
             queryMethod: SparqlQueryMethod.GET,
             acceptBlankNodes: true,
             //NH 30-7-2021 - custom header implementation
-            headers: config_data
+            headers: ConfigData
             //queryFunction: qf
         }, ),
     });
