@@ -8,13 +8,12 @@ import {
 import { onPageLoad, tryLoadLayoutFromLocalStorage, saveLayoutToLocalStorage } from './common';
 
 // const ConfigData: any = require('../auth_config.json')
-        
+const ConfigData = { } ;
 
 function onWorkspaceMounted(workspace: Workspace) {
     if (!workspace) { return; }
 
     const diagram = tryLoadLayoutFromLocalStorage();
-    let SparqlSettings = OWLRDFSSettings
 
     workspace.getModel().importLayout({
         diagram,
@@ -25,12 +24,12 @@ function onWorkspaceMounted(workspace: Workspace) {
             queryMethod: SparqlQueryMethod.GET,
             //acceptBlankNodes: true,
             //NH 30-7-2021 - custom header implementation
-            // headers: ConfigData,
+            headers: ConfigData,
             //queryFunction: qf
         }, //SparqlSettings 
         ),
     });
-}
+};
 
 const props: WorkspaceProps & ClassAttributes<Workspace> = {
     ref: onWorkspaceMounted,
